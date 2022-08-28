@@ -10,6 +10,9 @@ app.use(bodyParser.json({ limit: myLimit }));
 
 app.all('*', function (req, res, next) {
 
+    if (process.env.DEBUG_REQ) { console.log({ url: req.url, method: req.method }) }
+    if (process.env.DEBUG_HEADERS) { console.log(req?.headers) }
+    if (process.env.DEBUG_BODY) { console.log(req?.body) }
     // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
     //res.header("Access-Control-Allow-Origin", "*");
     //res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");

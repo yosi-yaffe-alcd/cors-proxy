@@ -1,11 +1,23 @@
 {
-  "name": "CorsProxy",
+  "name": "AmpaCorsProxy",
   "description": "Simple Cors Proxy",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
+  "main": "server.js",
   "dependencies": {
     "express": "~4.4.3",
     "request": "~2.36.0",
     "body-parser": "~1.5.2"
+  },
+  "scripts": {
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yosi-yaffe-alcd/cors-proxy.git"
+  },
+  "engines": {
+    "node": "~16",
+    "npm": "~8"
   }
 }

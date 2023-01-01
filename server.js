@@ -17,6 +17,7 @@ app.all('*', function (req, res, next) {
     //res.header("Access-Control-Allow-Origin", "*");
     //res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     //res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
+    var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
     var proxyToken = req.header('Proxy-Token');
     if (proxyToken !== process.env.PROXY_TOKEN) {
         res.send(401, { error: 'Proxy-Token header missing or incorrect' });
@@ -31,7 +32,19 @@ app.all('*', function (req, res, next) {
             res.send(500, { error: 'There is no Target-Endpoint header in the request' });
             return;
         }
-        request({ url: targetURL + req.url, method: req.method, json: req.body, headers: { 'Authorization': req.header('Authorization') } }, //{ 'Authorization': req.header('Authorization') }
+
+        var options = {
+            proxy: process.env.QUOTAGUARDSTATIC_URL,
+            url: targetURL + req.url,
+            method: req.method,
+            json: req.body,
+            headers: { 
+                'User-Agent': 'node.js',
+                'Authorization': req.header('Authorization') 
+            }
+        };
+
+        request(options, 
             function (error, response, body) {
                 if (error) {
                     console.log('### res error: ', error)

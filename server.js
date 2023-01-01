@@ -1,12 +1,14 @@
 var express = require('express'),
     request = require('request'),
-    bodyParser = require('body-parser'),
+    //bodyParser = require('body-parser'),
+    xmlparser = require('express-xml-bodyparser'),
     app = express();
 
 var myLimit = typeof (process.env.PAYLOAD_LIMIT) != 'undefined' ? process.env.PAYLOAD_LIMIT : '100kb';
 console.log('Using limit: ', myLimit);
 
-app.use(bodyParser.json({ limit: myLimit }));
+//app.use(bodyParser.json({ limit: myLimit }));
+app.use(xmlparser());
 
 app.all('*', function (req, res, next) {
 
@@ -36,7 +38,7 @@ app.all('*', function (req, res, next) {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: targetURL + req.url,
             method: req.method,
-            body: req.rawBody,
+            body: req.body,
             headers: { 
                 'User-Agent': 'node.js',
                 'Content-Type' : req.header('content-type'),

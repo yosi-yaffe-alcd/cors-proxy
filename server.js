@@ -1,16 +1,16 @@
 require('dotenv').config();
 var express = require('express'),
     request = require('request'),
-    bodyParser = require('body-parser'),
+    //bodyParser = require('body-parser'),
     app = express();
 
-    require('body-parser-xml')(bodyParser);
+    //require('body-parser-xml')(bodyParser);
 
 var myLimit = typeof (process.env.PAYLOAD_LIMIT) != 'undefined' ? process.env.PAYLOAD_LIMIT : '100kb';
 console.log('Using limit: ', myLimit);
 
 //app.use(bodyParser.json({ limit: myLimit }));
-app.use(bodyParser.xml({
+/*app.use(bodyParser.xml({
     limit: myLimit, // Reject payload bigger than 1 MB
     xmlParseOptions: {
       normalize: true, // Trim whitespace inside text nodes
@@ -18,7 +18,7 @@ app.use(bodyParser.xml({
       explicitArray: false, // Only put nodes in array if >1
       type : ['text/xml;charset=UTF-8','/xml','+xml']
 
-    }}));
+    }}));*/
 
 app.all('*', function (req, res, next) {
 

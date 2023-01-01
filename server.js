@@ -36,10 +36,11 @@ app.all('*', function (req, res, next) {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: targetURL + req.url,
             method: req.method,
-            json: req.body,
+            body: req.rawBody,
             headers: { 
                 'User-Agent': 'node.js',
-                'Authorization': req.header('Authorization') 
+                'Content-Type' : req.header('content-type'),
+                'soapaction' : req.header('soapaction')
             }
         };
 

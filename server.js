@@ -48,7 +48,7 @@ app.all('*', function (req, res, next) {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: targetURL + req.url,
             method: req.method,
-            body: req.rawBody,
+            body: req.body,
             headers: { 
                 'User-Agent': 'node.js',
                 'Content-Type' : req.header('content-type'),

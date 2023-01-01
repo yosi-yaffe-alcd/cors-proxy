@@ -17,7 +17,6 @@ app.all('*', function (req, res, next) {
     //res.header("Access-Control-Allow-Origin", "*");
     //res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     //res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
-    var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
     var proxyToken = req.header('Proxy-Token');
     if (proxyToken !== process.env.PROXY_TOKEN) {
         res.send(401, { error: 'Proxy-Token header missing or incorrect' });

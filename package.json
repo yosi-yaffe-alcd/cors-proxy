@@ -8,7 +8,8 @@
     "body-parser": "~1.5.2",
     "body-parser-xml": "^2.0.3",
     "express": "~4.4.3",
-    "request": "~2.36.0"
+    "request": "~2.36.0",
+    "dotenv": "^16.0.3"
   },
   "scripts": {
     "start": "node server"
@@ -20,8 +21,5 @@
   "engines": {
     "node": "~16",
     "npm": "~8"
-  },
-  "devDependencies": {
-    "dotenv": "^16.0.3"
   }
 }

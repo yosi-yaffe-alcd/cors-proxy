@@ -1,4 +1,4 @@
-//require('dotenv').config();
+require('dotenv').config();
 var express = require('express'),
     request = require('request'),
     bodyParser = require('body-parser'),
@@ -14,8 +14,10 @@ app.use(bodyParser.xml({
     limit: myLimit, // Reject payload bigger than 1 MB
     xmlParseOptions: {
       normalize: true, // Trim whitespace inside text nodes
-      normalizeTags: true, // Transform tags to lowercase
+      normalizeTags: false, // Transform tags to lowercase
       explicitArray: false, // Only put nodes in array if >1
+      type : ['text/xml;charset=UTF-8','/xml','+xml']
+
     }}));
 
 app.all('*', function (req, res, next) {
@@ -50,7 +52,8 @@ app.all('*', function (req, res, next) {
             headers: { 
                 'User-Agent': 'node.js',
                 'Content-Type' : req.header('content-type'),
-                'soapaction' : req.header('soapaction')
+                'soapaction' : req.header('soapaction'),
+                'Connection': 'keep-alive'
             }
         };
 

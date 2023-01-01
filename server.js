@@ -1,14 +1,22 @@
+require('dotenv').config();
 var express = require('express'),
     request = require('request'),
-    //bodyParser = require('body-parser'),
-    xmlparser = require('express-xml-bodyparser'),
+    bodyParser = require('body-parser'),
     app = express();
+
+    require('body-parser-xml')(bodyParser);
 
 var myLimit = typeof (process.env.PAYLOAD_LIMIT) != 'undefined' ? process.env.PAYLOAD_LIMIT : '100kb';
 console.log('Using limit: ', myLimit);
 
 //app.use(bodyParser.json({ limit: myLimit }));
-app.use(xmlparser());
+app.use(bodyParser.xml({
+    limit: myLimit, // Reject payload bigger than 1 MB
+    xmlParseOptions: {
+      normalize: true, // Trim whitespace inside text nodes
+      normalizeTags: true, // Transform tags to lowercase
+      explicitArray: false, // Only put nodes in array if >1
+    }}));
 
 app.all('*', function (req, res, next) {
 
@@ -38,7 +46,7 @@ app.all('*', function (req, res, next) {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: targetURL + req.url,
             method: req.method,
-            body: req.body,
+            body: req.rawBody,
             headers: { 
                 'User-Agent': 'node.js',
                 'Content-Type' : req.header('content-type'),

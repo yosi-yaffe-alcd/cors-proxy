@@ -75,6 +75,7 @@ app.all('*', function (req, res, next) {
             console.log('connected');
             client?.[req.method](req.body, function(err, result) {
                 console.log(result);
+                res.send(result);
             });
         });
         

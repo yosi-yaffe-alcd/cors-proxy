@@ -1,24 +1,25 @@
 require('dotenv').config();
 var express = require('express'),
+    http = require("https");
     request = require('request'),
-    //bodyParser = require('body-parser'),
+    bodyParser = require('body-parser'),
+    url = require("url"),
     app = express();
-
-    //require('body-parser-xml')(bodyParser);
+    
+    require('body-parser-xml')(bodyParser);
 
 var myLimit = typeof (process.env.PAYLOAD_LIMIT) != 'undefined' ? process.env.PAYLOAD_LIMIT : '100kb';
 console.log('Using limit: ', myLimit);
 
 //app.use(bodyParser.json({ limit: myLimit }));
-/*app.use(bodyParser.xml({
+app.use(bodyParser.xml({
     limit: myLimit, // Reject payload bigger than 1 MB
     xmlParseOptions: {
       normalize: true, // Trim whitespace inside text nodes
       normalizeTags: false, // Transform tags to lowercase
       explicitArray: false, // Only put nodes in array if >1
       type : ['text/xml;charset=UTF-8','/xml','+xml']
-
-    }}));*/
+    }}));
 
 app.all('*', function (req, res, next) {
 
@@ -49,15 +50,18 @@ app.all('*', function (req, res, next) {
             url: targetURL + req.url,
             method: req.method,
             body: req.body,
-            headers: { 
-                'User-Agent': 'node.js',
-                'Content-Type' : req.header('content-type'),
-                'soapaction' : req.header('soapaction'),
-                'Connection': 'keep-alive'
-            }
+            headers: req.headers
         };
 
-        request(options, 
+        options = {
+            proxy: process.env.QUOTAGUARDSTATIC_URL,
+            url: targetURL + req.url,
+            method: req.method,
+        };
+
+        console.log('### request : ', options);
+
+        /*request({}, 
             function (error, response, body) {
                 if (error) {
                     console.log('### res error: ', error)
@@ -65,7 +69,8 @@ app.all('*', function (req, res, next) {
                 //console.log(body);
                 if (process.env.DEBUG_RES) { console.log('### response: ', response) }
                 if (process.env.DEBUG_RES_BODY) { console.log('### res body: ', body) }
-            }).pipe(res);
+            }).pipe(res);*/
+        
     }
 });
 

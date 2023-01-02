@@ -3,16 +3,19 @@
   "description": "Simple Cors Proxy",
   "version": "1.0.0",
   "private": true,
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
     "body-parser": "~1.5.2",
     "body-parser-xml": "^2.0.3",
+    "dotenv": "^16.0.3",
     "express": "~4.4.3",
-    "request": "~2.36.0",
-    "dotenv": "^16.0.3"
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^2.0.6",
+    "https": "^1.0.0",
+    "request": "~2.36.0"
   },
   "scripts": {
-    "start": "node server"
+    "start": "node index"
   },
   "repository": {
     "type": "git",

@@ -49,19 +49,13 @@ app.all('*', function (req, res, next) {
             proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: targetURL + req.url,
             method: req.method,
-            body: req.body,
+            body: req.rawBody,
             headers: req.headers
-        };
-
-        options = {
-            proxy: process.env.QUOTAGUARDSTATIC_URL,
-            url: targetURL + req.url,
-            method: req.method,
         };
 
         console.log('### request : ', options);
 
-        /*request({}, 
+        request(options, 
             function (error, response, body) {
                 if (error) {
                     console.log('### res error: ', error)
@@ -69,7 +63,7 @@ app.all('*', function (req, res, next) {
                 //console.log(body);
                 if (process.env.DEBUG_RES) { console.log('### response: ', response) }
                 if (process.env.DEBUG_RES_BODY) { console.log('### res body: ', body) }
-            }).pipe(res);*/
+            }).pipe(res);
         
     }
 });

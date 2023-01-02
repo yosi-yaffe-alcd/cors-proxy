@@ -12,8 +12,8 @@ const app = express();
     });
 };*/
 
-const options = {
-    target: 'https://www.amnet.co.il:8443', // target host with the same base path
+const options = {//'https://www.amnet.co.il:8443'
+    target: process.env.QUOTAGUARDSTATIC_URL, // target host with the same base path
     changeOrigin: true, // needed for virtual hosted sites
     ejectPlugins: true,
     plugins: [debugProxyErrorsPlugin, loggerPlugin, errorResponsePlugin, proxyEventsPlugin],
@@ -37,7 +37,7 @@ app.use(bodyParser.xml({
       normalize: true, // Trim whitespace inside text nodes
       normalizeTags: false, // Transform tags to lowercase
       explicitArray: false, // Only put nodes in array if >1
-      type : ['text/xml;charset=UTF-8','/xml','+xml']
+      type : ['text/xml;charset=UTF-8','/xml','+xml','/html']
     }}));
 app.use('/',proxyServer);
 app.listen(3000);

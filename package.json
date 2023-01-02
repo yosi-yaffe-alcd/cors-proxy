@@ -3,7 +3,7 @@
   "description": "Simple Cors Proxy",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "~1.5.2",
     "body-parser-xml": "^2.0.3",
@@ -15,7 +15,7 @@
     "request": "~2.36.0"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node server"
   },
   "repository": {
     "type": "git",

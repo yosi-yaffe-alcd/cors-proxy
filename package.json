@@ -13,10 +13,11 @@
     "http-proxy": "^1.18.1",
     "http-proxy-middleware": "^2.0.6",
     "https": "^1.0.0",
-    "request": "~2.36.0"
+    "request": "~2.36.0",
+    "soap": "^1.0.0"
   },
   "scripts": {
-    "start": "node server"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

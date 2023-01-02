@@ -3,20 +3,23 @@ var express = require('express'),
     request = require('request'),
     bodyParser = require('body-parser'),
     app = express();
-    
-    require('body-parser-xml')(bodyParser);
+var soap = require('soap');
+
+    //require('body-parser-xml')(bodyParser);
+
+
 
 var myLimit = typeof (process.env.PAYLOAD_LIMIT) != 'undefined' ? process.env.PAYLOAD_LIMIT : '100kb';
 console.log('Using limit: ', myLimit);
 
-app.use(bodyParser.xml({
+/*app.use(bodyParser.xml({
     limit: myLimit, // Reject payload bigger than 1 MB
     xmlParseOptions: {
       normalize: true, // Trim whitespace inside text nodes
       normalizeTags: false, // Transform tags to lowercase
       explicitArray: false, // Only put nodes in array if >1
       type : ['text/xml;charset=UTF-8','/xml','+xml','/html']
-    }}));
+    }}));*/
 
 app.all('*', function (req, res, next) {
 
@@ -52,7 +55,7 @@ app.all('*', function (req, res, next) {
 
         console.log('### request : ', options);
 
-        request(options, 
+        /*request(options, 
             function (error, response, body) {
                 if (error) {
                     console.log('### res error: ', error)
@@ -60,7 +63,20 @@ app.all('*', function (req, res, next) {
                 //console.log(body);
                 if (process.env.DEBUG_RES) { console.log('### response: ', response) }
                 if (process.env.DEBUG_RES_BODY) { console.log('### res body: ', body) }
-            }).pipe(res);
+            }).pipe(res);*/
+
+        let opts = {
+            wsdl_options: {
+                proxy: process.env.QUOTAGUARDSTATIC_URL
+            }
+        };
+            
+        soap.createClient(targetURL + req.url, opts, function(err, client) {
+            console.log('connected');
+            client?.[req.method](req.body, function(err, result) {
+                console.log(result);
+            });
+        });
         
     }
 });
